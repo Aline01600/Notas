@@ -65,7 +65,7 @@ class _NotasPageState extends State<NotasPage> {
         _controller.text.isEmpty ? 'Nota sem título' : _controller.text;
     Nota novaNota = Nota(titulo: titulo);
     setState(() {
-      _notas.add(novaNota);
+      _notas.insert(0, novaNota);
       _controller.clear();
     });
     _salvarNotas();
@@ -77,6 +77,13 @@ class _NotasPageState extends State<NotasPage> {
             (context) => EdicaoNotaPage(
               nota: novaNota,
               onSave: (notaEditada) {
+                //encontra a nota na lista e a atualiza
+                setState(() {
+                  int index = _notas.indexOf(novaNota);
+                  if (index != -1) {
+                    _notas[index] = notaEditada;
+                  }
+                });
                 _salvarNotas();
               },
               // Passa a função de exclusão
